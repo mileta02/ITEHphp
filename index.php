@@ -1,3 +1,30 @@
+<?php
+require "dbBroker.php";
+require "model/user.php";
+session_start();
+if(isset($_POST["username"]) && isset($_POST["password"])){
+
+    $name = $_POST["username"];
+    $password = $_POST["password"];
+    
+    //$conn = new mysqli();
+    $korisnik = new User(0, $name, $password);
+   // $odg = $korisnik->loginUser($name, $password,$conn);
+    $odg = User::loginUser($korisnik,$conn);
+    if($odg->num_rows==1){
+    $_SESSION['user_id']=$korisnik->id;
+    header("location: home.php");
+    exit();
+    }else{
+        echo "Login failed";
+    }
+
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
