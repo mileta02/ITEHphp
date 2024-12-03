@@ -1,3 +1,28 @@
+<?php
+
+require "dbBroker.php";
+require "model/prijava.php";
+
+
+session_start();
+if(!isset($_SESSION["user_id"])){
+    header("Location:index.php");
+    exit();
+}
+
+$rezultat = Prijava::getAll($conn);
+if(!$rezultat){
+    echo "Greska prilikom izvodjenja upita";
+    die();
+}
+
+if($rezultat->num_rows==0){
+    echo "Nema prijava";
+    die();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,7 +68,7 @@ a
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($red = $result->fetch_array()) { ?>
+                            <?php while ($red = $rezultat->fetch_array()) { ?>
                                 <tr>
                                     <td><?php echo $red["predmet"] ?></td>
                                     <td><?php echo $red["katedra"] ?></td>
@@ -171,6 +196,7 @@ a
             $('#datum').val(datum);
         });
     </script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
