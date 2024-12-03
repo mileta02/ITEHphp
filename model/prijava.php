@@ -54,7 +54,12 @@ public static function add(Prijava $prijava, mysqli $conn){
 }
 public static function update(Prijava $prijava, mysqli $conn){
 
-  $q = "UPDATE prijave set (predmet,katedra,sala,datum) VALUES('$prijava->predmet','$prijava->katedra','$prijava->sala','$prijava->datum')";
+  $q = "UPDATE prijave 
+  SET predmet = '$prijava->predmet', 
+      katedra = '$prijava->katedra', 
+      sala = '$prijava->sala', 
+      datum = '$prijava->datum' 
+  WHERE id = $prijava->id";
   return $conn->query($q);
 
 }
